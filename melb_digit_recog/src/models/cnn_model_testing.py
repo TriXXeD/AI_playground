@@ -1,10 +1,6 @@
 import keras
 from .load_process_data import (
-    num_classes,
-    n_train_X,
-    n_train_y,
-    n_test_X,
-    n_test_y,
+    ProcessedData
 )
 
 
@@ -20,7 +16,7 @@ def cnn_opt():
     model.add(keras.layers.Flatten())
     model.add(keras.layers.Dense(128, activation='relu'))
     model.add(keras.layers.Dense(50, activation='relu'))
-    model.add(keras.layers.Dense(num_classes, activation='softmax'))
+    model.add(keras.layers.Dense(ProcessedData.num_classes, activation='softmax'))
     # Create model
     model.compile(loss='categorical_crossentropy', optimizer='rmsprop', metrics=['accuracy'])
     return model
@@ -39,7 +35,7 @@ def cnn_conv():
     model.add(keras.layers.Flatten())
     model.add(keras.layers.Dense(128, activation='relu'))
     model.add(keras.layers.Dense(50, activation='relu'))
-    model.add(keras.layers.Dense(num_classes, activation='softmax'))
+    model.add(keras.layers.Dense(ProcessedData.num_classes, activation='softmax'))
     # Create model
     model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
     return model
@@ -57,7 +53,7 @@ def cnn_dense():
     model.add(keras.layers.Dense(128, activation='relu'))
     model.add(keras.layers.Dense(64, activation='relu'))
     model.add(keras.layers.Dense(32, activation='relu'))
-    model.add(keras.layers.Dense(num_classes, activation='softmax'))
+    model.add(keras.layers.Dense(ProcessedData.num_classes, activation='softmax'))
     # Create model
     model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
     return model
@@ -74,7 +70,7 @@ def cnn_drop():
     model.add(keras.layers.Flatten())
     model.add(keras.layers.Dense(128, activation='relu'))
     model.add(keras.layers.Dense(50, activation='relu'))
-    model.add(keras.layers.Dense(num_classes, activation='softmax'))
+    model.add(keras.layers.Dense(ProcessedData.num_classes, activation='softmax'))
     # Create model
     model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
     return model
@@ -87,26 +83,26 @@ cnn_dense = cnn_dense()
 cnn_conv = cnn_conv()
 cnn_opt = cnn_opt()
 
-cnn_drop.fit(n_train_X, n_train_y,
-             validation_data=(n_test_X, n_test_y),
+cnn_drop.fit(ProcessedData.n_train_X, ProcessedData.n_train_y,
+             validation_data=(ProcessedData.n_test_X, ProcessedData.n_test_y),
              epochs=5, batch_size=200, verbose=2)
-score = cnn_drop.evaluate(n_test_X, n_test_y, verbose=2)
+score = cnn_drop.evaluate(ProcessedData.n_test_X, ProcessedData.n_test_y, verbose=2)
 print("Error: %.3f%%" % (100 - score[1] * 100))
 
-cnn_opt.fit(n_train_X, n_train_y,
-            validation_data=(n_test_X, n_test_y),
+cnn_opt.fit(ProcessedData.n_train_X, ProcessedData.n_train_y,
+            validation_data=(ProcessedData.n_test_X, ProcessedData.n_test_y),
             epochs=5, batch_size=200, verbose=2)
-score = cnn_opt.evaluate(n_test_X, n_test_y, verbose=2)
+score = cnn_opt.evaluate(ProcessedData.n_test_X, ProcessedData.n_test_y, verbose=2)
 print("Error: %.3f%%" % (100 - score[1] * 100))
 
-cnn_dense.fit(n_train_X, n_train_y,
-              validation_data=(n_test_X, n_test_y),
+cnn_dense.fit(ProcessedData.n_train_X, ProcessedData.n_train_y,
+              validation_data=(ProcessedData.n_test_X, ProcessedData.n_test_y),
               epochs=5, batch_size=200, verbose=2)
-score = cnn_dense.evaluate(n_test_X, n_test_y, verbose=2)
+score = cnn_dense.evaluate(ProcessedData.n_test_X, ProcessedData.n_test_y, verbose=2)
 print("Error: %.3f%%" % (100 - score[1] * 100))
 
-cnn_conv.fit(n_train_X, n_train_y,
-             validation_data=(n_test_X, n_test_y),
+cnn_conv.fit(ProcessedData.n_train_X, ProcessedData.n_train_y,
+             validation_data=(ProcessedData.n_test_X, ProcessedData.n_test_y),
              epochs=5, batch_size=200, verbose=2)
-score = cnn_conv.evaluate(n_test_X, n_test_y, verbose=2)
+score = cnn_conv.evaluate(ProcessedData.n_test_X, ProcessedData.n_test_y, verbose=2)
 print("Error: %.3f%%" % (100 - score[1] * 100))

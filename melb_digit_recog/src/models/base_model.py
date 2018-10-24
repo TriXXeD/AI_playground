@@ -3,11 +3,7 @@ import keras
 import pandas as pd
 
 from .load_process_data import (
-    num_classes,
-    n_train_X,
-    n_train_y,
-    n_test_X,
-    n_test_y,
+    ProcessedData
 )
 
 
@@ -22,7 +18,7 @@ def cnn_model():
     model.add(keras.layers.Flatten())
     model.add(keras.layers.Dense(128, activation='relu'))
     model.add(keras.layers.Dense(50, activation='relu'))
-    model.add(keras.layers.Dense(num_classes, activation='softmax'))
+    model.add(keras.layers.Dense(ProcessedData.num_classes, activation='softmax'))
     # Create model
     model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
     return model
@@ -32,11 +28,11 @@ def cnn_model():
 np.random.seed(1994)
 num_pixels = 64 * 64
 firstCnnModel = cnn_model()
-firstCnnModel.fit(n_train_X, n_train_y,
-                  validation_data=(n_test_X, n_test_y),
+firstCnnModel.fit(ProcessedData.n_train_X, ProcessedData.n_train_y,
+                  validation_data=(ProcessedData.n_test_X, ProcessedData.n_test_y),
                   epochs=10, batch_size=200, verbose=2)
-firstCnnModel_pred = firstCnnModel.predict(n_test_X)
-score = firstCnnModel.evaluate(n_test_X, n_test_y, verbose=2)
+firstCnnModel_pred = firstCnnModel.predict(ProcessedData.n_test_X)
+score = firstCnnModel.evaluate(ProcessedData.n_test_X, ProcessedData.n_test_y, verbose=2)
 print("Error: %.2f%%" % (100 - score[1] * 100))
 
 # Reversing categorical data for submission
@@ -52,3 +48,5 @@ handin = np.vstack([labels, csv_int])
 
 df = pd.DataFrame(handin)
 df.to_csv("pred1.csv", header=None, index=None, index_label=None)
+
+

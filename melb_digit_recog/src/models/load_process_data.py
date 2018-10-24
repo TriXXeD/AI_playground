@@ -38,16 +38,18 @@ k_test_y[:, ] = ([
 
 
 # Pre-processing
-
 # cnn prep
 k_train_X = k_train_X.reshape(k_train_X.shape[0], 1, 64, 64).astype('float32')
 k_test_X = k_test_X.reshape(k_test_X.shape[0], 1, 64, 64).astype('float32')
 
-# normalize
-n_train_X = k_train_X / 255
-n_test_X = k_test_X / 255
-# one hot encoding
 
-n_train_y = np_utils.to_categorical(k_train_y)
-n_test_y = np_utils.to_categorical(k_test_y)
-num_classes = n_test_y.shape[1]
+class ProcessedData:
+    # normalize
+    n_train_X = k_train_X / 255
+    n_test_X = k_test_X / 255
+
+    # one hot encoding
+    n_train_y = np_utils.to_categorical(k_train_y)
+    n_test_y = np_utils.to_categorical(k_test_y)
+
+    num_classes = n_test_y.shape[1]

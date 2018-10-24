@@ -1,10 +1,6 @@
 import keras
 from .load_process_data import (
-    num_classes,
-    n_train_X,
-    n_train_y,
-    n_test_X,
-    n_test_y,
+    ProcessedData
 )
 
 
@@ -20,7 +16,7 @@ def cnn_relu():
     model.add(keras.layers.Flatten())
     model.add(keras.layers.Dense(128, activation='relu'))
     model.add(keras.layers.Dense(50, activation='relu'))
-    model.add(keras.layers.Dense(num_classes, activation='softmax'))
+    model.add(keras.layers.Dense(ProcessedData.num_classes, activation='softmax'))
     # Create model
     model.compile(loss='categorical_crossentropy', optimizer='rmsprop', metrics=['accuracy'])
     return model
@@ -37,7 +33,7 @@ def cnn_sigmoid():
     model.add(keras.layers.Flatten())
     model.add(keras.layers.Dense(128, activation='sigmoid'))
     model.add(keras.layers.Dense(50, activation='sigmoid'))
-    model.add(keras.layers.Dense(num_classes, activation='softmax'))
+    model.add(keras.layers.Dense(ProcessedData.num_classes, activation='softmax'))
     # Create model
     model.compile(loss='categorical_crossentropy', optimizer='rmsprop', metrics=['accuracy'])
     return model
@@ -54,7 +50,7 @@ def cnn_elu():
     model.add(keras.layers.Flatten())
     model.add(keras.layers.Dense(128, activation='elu'))
     model.add(keras.layers.Dense(50, activation='elu'))
-    model.add(keras.layers.Dense(num_classes, activation='softmax'))
+    model.add(keras.layers.Dense(ProcessedData.num_classes, activation='softmax'))
     # Create model
     model.compile(loss='categorical_crossentropy', optimizer='rmsprop', metrics=['accuracy'])
     return model
@@ -71,7 +67,7 @@ def cnn_mix():
     model.add(keras.layers.Flatten())
     model.add(keras.layers.Dense(128, activation='sigmoid'))
     model.add(keras.layers.Dense(50, activation='relu'))
-    model.add(keras.layers.Dense(num_classes, activation='softmax'))
+    model.add(keras.layers.Dense(ProcessedData.num_classes, activation='softmax'))
     # Create model
     model.compile(loss='categorical_crossentropy', optimizer='rmsprop', metrics=['accuracy'])
     return model
@@ -83,26 +79,26 @@ relu = cnn_relu()
 elu = cnn_elu()
 mix = cnn_mix()
 
-relu.fit(n_train_X, n_train_y,
-         validation_data=(n_test_X, n_test_y),
+relu.fit(ProcessedData.n_train_X, ProcessedData.n_train_y,
+         validation_data=(ProcessedData.n_test_X, ProcessedData.n_test_y),
          epochs=6, batch_size=200, verbose=2)
-score = relu.evaluate(n_test_X, n_test_y, verbose=2)
+score = relu.evaluate(ProcessedData.n_test_X, ProcessedData.n_test_y, verbose=2)
 print("Error: %.3f%%" % (100 - score[1] * 100))
 
-sigmoid.fit(n_train_X, n_train_y,
-            validation_data=(n_test_X, n_test_y),
+sigmoid.fit(ProcessedData.n_train_X, ProcessedData.n_train_y,
+            validation_data=(ProcessedData.n_test_X, ProcessedData.n_test_y),
             epochs=6, batch_size=200, verbose=2)
-score = sigmoid.evaluate(n_test_X, n_test_y, verbose=2)
+score = sigmoid.evaluate(ProcessedData.n_test_X, ProcessedData.n_test_y, verbose=2)
 print("Error: %.3f%%" % (100 - score[1] * 100))
 
-elu.fit(n_train_X, n_train_y,
-        validation_data=(n_test_X, n_test_y),
+elu.fit(ProcessedData.n_train_X, ProcessedData.n_train_y,
+        validation_data=(ProcessedData.n_test_X, ProcessedData.n_test_y),
         epochs=6, batch_size=200, verbose=2)
-score = elu.evaluate(n_test_X, n_test_y, verbose=2)
+score = elu.evaluate(ProcessedData.n_test_X, ProcessedData.n_test_y, verbose=2)
 print("Error: %.3f%%" % (100 - score[1] * 100))
 
-mix.fit(n_train_X, n_train_y,
-        validation_data=(n_test_X, n_test_y),
+mix.fit(ProcessedData.n_train_X, ProcessedData.n_train_y,
+        validation_data=(ProcessedData.n_test_X, ProcessedData.n_test_y),
         epochs=6, batch_size=200, verbose=2)
-score = mix.evaluate(n_test_X, n_test_y, verbose=2)
+score = mix.evaluate(ProcessedData.n_test_X, ProcessedData.n_test_y, verbose=2)
 print("Error: %.3f%%" % (100 - score[1] * 100))
