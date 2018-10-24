@@ -74,35 +74,3 @@ def cnn_drop():
     # Create model
     model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
     return model
-
-
-# Factor Testing
-# models
-cnn_drop = cnn_drop()
-cnn_dense = cnn_dense()
-cnn_conv = cnn_conv()
-cnn_opt = cnn_opt()
-
-cnn_drop.fit(ProcessedData.n_train_X, ProcessedData.n_train_y,
-             validation_data=(ProcessedData.n_test_X, ProcessedData.n_test_y),
-             epochs=5, batch_size=200, verbose=2)
-score = cnn_drop.evaluate(ProcessedData.n_test_X, ProcessedData.n_test_y, verbose=2)
-print("Error: %.3f%%" % (100 - score[1] * 100))
-
-cnn_opt.fit(ProcessedData.n_train_X, ProcessedData.n_train_y,
-            validation_data=(ProcessedData.n_test_X, ProcessedData.n_test_y),
-            epochs=5, batch_size=200, verbose=2)
-score = cnn_opt.evaluate(ProcessedData.n_test_X, ProcessedData.n_test_y, verbose=2)
-print("Error: %.3f%%" % (100 - score[1] * 100))
-
-cnn_dense.fit(ProcessedData.n_train_X, ProcessedData.n_train_y,
-              validation_data=(ProcessedData.n_test_X, ProcessedData.n_test_y),
-              epochs=5, batch_size=200, verbose=2)
-score = cnn_dense.evaluate(ProcessedData.n_test_X, ProcessedData.n_test_y, verbose=2)
-print("Error: %.3f%%" % (100 - score[1] * 100))
-
-cnn_conv.fit(ProcessedData.n_train_X, ProcessedData.n_train_y,
-             validation_data=(ProcessedData.n_test_X, ProcessedData.n_test_y),
-             epochs=5, batch_size=200, verbose=2)
-score = cnn_conv.evaluate(ProcessedData.n_test_X, ProcessedData.n_test_y, verbose=2)
-print("Error: %.3f%%" % (100 - score[1] * 100))

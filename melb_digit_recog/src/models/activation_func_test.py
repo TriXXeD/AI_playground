@@ -71,34 +71,3 @@ def cnn_mix():
     # Create model
     model.compile(loss='categorical_crossentropy', optimizer='rmsprop', metrics=['accuracy'])
     return model
-
-
-# Running models
-sigmoid = cnn_sigmoid()
-relu = cnn_relu()
-elu = cnn_elu()
-mix = cnn_mix()
-
-relu.fit(ProcessedData.n_train_X, ProcessedData.n_train_y,
-         validation_data=(ProcessedData.n_test_X, ProcessedData.n_test_y),
-         epochs=6, batch_size=200, verbose=2)
-score = relu.evaluate(ProcessedData.n_test_X, ProcessedData.n_test_y, verbose=2)
-print("Error: %.3f%%" % (100 - score[1] * 100))
-
-sigmoid.fit(ProcessedData.n_train_X, ProcessedData.n_train_y,
-            validation_data=(ProcessedData.n_test_X, ProcessedData.n_test_y),
-            epochs=6, batch_size=200, verbose=2)
-score = sigmoid.evaluate(ProcessedData.n_test_X, ProcessedData.n_test_y, verbose=2)
-print("Error: %.3f%%" % (100 - score[1] * 100))
-
-elu.fit(ProcessedData.n_train_X, ProcessedData.n_train_y,
-        validation_data=(ProcessedData.n_test_X, ProcessedData.n_test_y),
-        epochs=6, batch_size=200, verbose=2)
-score = elu.evaluate(ProcessedData.n_test_X, ProcessedData.n_test_y, verbose=2)
-print("Error: %.3f%%" % (100 - score[1] * 100))
-
-mix.fit(ProcessedData.n_train_X, ProcessedData.n_train_y,
-        validation_data=(ProcessedData.n_test_X, ProcessedData.n_test_y),
-        epochs=6, batch_size=200, verbose=2)
-score = mix.evaluate(ProcessedData.n_test_X, ProcessedData.n_test_y, verbose=2)
-print("Error: %.3f%%" % (100 - score[1] * 100))
