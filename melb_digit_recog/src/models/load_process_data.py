@@ -1,8 +1,9 @@
 import numpy as np
 from keras.utils import np_utils
+from scipy.signal import argrelextrema
 
 # Load Data
-k_data = np.load('data.npz')
+k_data = np.load('../data/data.npz')
 keys = k_data.keys()
 print(keys)
 k_train_X = k_data['train_X']
@@ -41,6 +42,45 @@ k_test_y[:, ] = ([
 # cnn prep
 k_train_X = k_train_X.reshape(k_train_X.shape[0], 1, 64, 64).astype('float32')
 k_test_X = k_test_X.reshape(k_test_X.shape[0], 1, 64, 64).astype('float32')
+
+
+class MultiDigitData:
+    for i in range(500):
+        r1 = np.random.randint(0, 34999)
+        r2 = np.random.randint(0, 34999)
+        r3 = np.random.randint(0, 34999)
+        # Removing extra dimension for stacking, test to see if dimension is required for model
+        new_train = k_train_X.reshape(k_train_X.shape[0], 64, 64)
+        new_train1 = np.array(new_train[r1])
+        new_train2 = np.array(new_train[r2])
+        new_train3 = np.array(new_train[r3])
+
+        two_digits = np.vstack((new_train1, new_train2))
+        three_digits = np.vstack((new_train1, new_train2, new_train3))
+        bin_two_digits = two_digits / 255
+        bin_three_digits = three_digits / 255
+
+        two_column_sums = bin_two_digits.sum(axis=1)
+        two_median = np.median(two_column_sums)
+        two_avg = np.average(two_column_sums)
+        three_column_sums = bin_three_digits.sum(axis=1)
+        three_median = np.median(three_column_sums)
+        three_avg = np.average(three_column_sums)
+        local_max_two = argrelextrema(two_column_sums, np.greater)
+
+        # Works if two_column is global variable, need to bring into list comp scope
+        # local_max_over_median_two = [x for x in local_max_two[0] if two_column_sums[x] > two_median]
+        local_max_over_median_two = []
+        for x in local_max_two[0]:
+            if two_column_sums[x] > (two_digits.shape[1] * 0.85):
+                local_max_over_median_two.append(x)
+
+        print(local_max_over_median_two)
+        local_max_three = argrelextrema(three_column_sums, np.greater)
+        # print(two_column_sums, three_column_sums)
+        print("two digits: {} {} \nthree digits: {} {}".format(two_median, two_avg, three_median, three_avg))
+        print(local_max_two, local_max_over_median_two)
+        print(two_column_sums[local_max_over_median_two])
 
 
 class ProcessedData:
